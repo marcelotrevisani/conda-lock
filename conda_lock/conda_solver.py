@@ -356,7 +356,8 @@ def solve_specs_for_arch(
         raise
 
     try:
-        dryrun_install: DryRunInstall = json.loads(proc.stdout)
+        proc_stdout = proc.stdout[:proc.stdout.rindex("}") + 1]
+        dryrun_install: DryRunInstall = json.loads(proc_stdout)
         return _reconstruct_fetch_actions(conda, platform, dryrun_install)
     except json.JSONDecodeError:
         raise
